@@ -29,9 +29,14 @@ routes.post(
   (req, res, next) => new CarController(req, res, next).register(),
 );
 
-// routes.get(
-//   '/key/:value',
-//   (req, res, next) => new KeyController(req, res, next).getByValue(),
-// );
+routes.get(
+  '/cars',
+  (req, res, next) => new CarController(req, res, next).getAll(),
+);
+
+routes.get(
+  '/cars/:id',
+  (req, res, next) => new CarController(req, res, next).getById(),
+);
 
 export default routes;

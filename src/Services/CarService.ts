@@ -23,8 +23,14 @@ export default class CarService {
     return this.createCarDomain(newCar);
   }
 
-//   public async getByValue(value: string): Promise<Key | null> {
-//     const key = await this.keyODM.findByValue(value);
-//     return this.createKeyDomain(key);
-//   }
+  public async getAll(): Promise<(Car | null)[]> {
+    const cars = await this.carODM.findAll();
+    const carsFinal = await Promise.all(cars?.map((car) => this.createCarDomain(car)) ?? []);
+    return carsFinal;
+  }
+  
+  public async getById(id: string): Promise<Car | null> {
+    const car = await this.carODM.findById(id);
+    return this.createCarDomain(car);
+  }
 }
