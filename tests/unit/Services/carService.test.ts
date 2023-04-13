@@ -6,8 +6,6 @@ import Car from '../../../src/Domains/Car';
 import CarService from '../../../src/Services/CarService';
 import CarODM from '../../../src/Models/CarODM';
 
-// const RESULT_ERROR = 'Invalid Key';
-
 describe('Testes de CarService', function () {
   it('Criando um car com SUCESSO', async function () {
     const carInput: ICar = {
@@ -104,6 +102,26 @@ describe('Testes de CarService', function () {
     const result = await service.getById('634852326b35b59438fbea2f');
   
     expect(result).to.be.deep.equal(carOutput);
+  });
+
+  it('buscando um carro com id inválido', async function () {
+    try {
+      const service = new CarService(new CarODM());
+      await service.getById('634852326b35b59438');
+    } catch (error) {
+      expect((error as Error).message).to.be.equal('Invalid mongo id');
+    }
+  });
+
+  it('buscando um carro com id inexistente', async function () {
+    Sinon.stub(Model, 'findOne').resolves(null);
+
+    try {
+      const service = new CarService(new CarODM());
+      await service.getById('634852326b35b59438fbea3f');
+    } catch (error) {
+      expect((error as Error).message).to.be.equal('Car not found');
+    }
   });
 
   afterEach(function () {

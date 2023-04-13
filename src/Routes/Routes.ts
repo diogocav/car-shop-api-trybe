@@ -19,10 +19,10 @@ const routes = Router();
 //   (req, res, next) => transferController.create(req, res, next),
 // );
 
-// routes.patch(
-//   '/transfer/:id',
-//   (req, res, next) => transferController.undoTransfer(req, res, next),
-// );
+routes.put(
+  '/cars/:id',
+  (req, res, next) => new CarController(req, res, next).updateById(),
+);
 
 routes.post(
   '/cars',

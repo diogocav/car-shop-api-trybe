@@ -21,12 +21,12 @@ export default abstract class AbstractODM<T> {
     return this.model.findById(id);
   }
 
-//   public async update(id: string, obj: Partial<T>):
-//   Promise<T | null> {
-//     return this.model.findByIdAndUpdate(
-//       { _id: id },
-//       obj,
-//       { new: true },
-//     );
-//   }
+  public async updateById(id: string, obj: Partial<T>):
+  Promise<T | null> {
+    return this.model.findByIdAndUpdate(
+      { _id: id },
+      obj,
+      { new: true },
+    );
+  }
 }

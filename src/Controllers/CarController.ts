@@ -40,16 +40,24 @@ export default class CarController {
     return this.res.status(200).json(cars);
   }
 
-  public async getById(): Promise<Response> {
-    const { id } = this.req.params;
-    const regex = /^[0-9a-fA-F]{24}$/;
-    if (!regex.test(id)) {
-      return this.res.status(422).json({ message: 'Invalid mongo id' });
+  public async getById() {
+    try {
+      const { id } = this.req.params;
+      const car = await this.service.getById(id);
+      return this.res.status(200).json(car);
+    } catch (error) {
+      this.next(error);
     }
-    const car = await this.service.getById(id);
-    if (!car) {
-      return this.res.status(404).json({ message: 'Car not found' });
+  }
+
+  public async updateById() {
+    try {
+      const { id } = this.req.params;
+      const car = this.req.body;
+      const updatedCar = await this.service.updateById(id, car);
+      return this.res.status(200).json(updatedCar);
+    } catch (error) {
+      this.next(error);
     }
-    return this.res.status(200).json(car);
   }
 }
