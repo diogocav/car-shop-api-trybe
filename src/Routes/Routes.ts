@@ -1,23 +1,8 @@
 import { Router } from 'express';
 import CarController from '../Controllers/CarController';
-// import TransferController from '../Controllers/TransferController';
-// import TransferService from '../Services/TransferService';
-// import PaymentODM from '../Models/PaymentODM';
-// import KeyService from '../Services/KeyService';
-// import KeyODM from '../Models/KeyODM';
+import MotorcycleController from '../Controllers/MotorcycleController';
 
 const routes = Router();
-
-// const service = new TransferService(
-//   new PaymentODM(), 
-//   new KeyService(new KeyODM()),
-// );
-// const transferController = new TransferController(service);
-
-// routes.post(
-//   '/transfer',
-//   (req, res, next) => transferController.create(req, res, next),
-// );
 
 routes.put(
   '/cars/:id',
@@ -37,6 +22,11 @@ routes.get(
 routes.get(
   '/cars/:id',
   (req, res, next) => new CarController(req, res, next).getById(),
+);
+
+routes.post(
+  '/motorcycles',
+  (req, res, next) => new MotorcycleController(req, res, next).register(),
 );
 
 export default routes;
