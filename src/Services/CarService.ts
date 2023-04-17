@@ -1,7 +1,7 @@
 import Car from '../Domains/Car';
 import ICar from '../Interfaces/ICar';
 import CarODM from '../Models/CarODM';
-import CarNotFoundError from '../errors/CarNotFoundError';
+import NotFoundError from '../errors/NotFoundError';
 import InvalidIdError from '../errors/InvalidIdError';
 
 export default class CarService {
@@ -37,7 +37,7 @@ export default class CarService {
     const car = await this.carODM.findById(id);
     const carFinal = this.createCarDomain(car);
     if (!carFinal) {
-      throw new CarNotFoundError('Car not found');
+      throw new NotFoundError('Car not found');
     }
     return carFinal;
   }
@@ -50,7 +50,7 @@ export default class CarService {
     const updatedCar = await this.carODM.updateById(id, car);
     const carFinal = this.createCarDomain(updatedCar);
     if (!carFinal) {
-      throw new CarNotFoundError('Car not found');
+      throw new NotFoundError('Car not found');
     }
     return carFinal;
   }

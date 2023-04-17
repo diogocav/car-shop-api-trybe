@@ -1,8 +1,8 @@
-export default class CarNotFoundError extends Error {
+export default class NotFoundError extends Error {
   constructor(message: string) {
     super(message);
     this.message = message;
-    this.name = 'CarNotFoundError';
+    this.name = 'NotFoundError';
     this.stack = '404';
   }
 }
