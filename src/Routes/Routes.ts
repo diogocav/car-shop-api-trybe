@@ -2,6 +2,8 @@ import { Router } from 'express';
 import CarController from '../Controllers/CarController';
 import MotorcycleController from '../Controllers/MotorcycleController';
 
+const MOTORCYCLES_ID = '/motorcycles/:id';
+
 const routes = Router();
 
 routes.put(
@@ -24,6 +26,11 @@ routes.get(
   (req, res, next) => new CarController(req, res, next).getById(),
 );
 
+routes.delete(
+  '/cars/:id',
+  (req, res, next) => new CarController(req, res, next).deleteById(),
+);
+
 routes.post(
   '/motorcycles',
   (req, res, next) => new MotorcycleController(req, res, next).register(),
@@ -35,13 +42,18 @@ routes.get(
 );
   
 routes.get(
-  '/motorcycles/:id',
+  MOTORCYCLES_ID,
   (req, res, next) => new MotorcycleController(req, res, next).getById(),
 );
 
 routes.put(
-  '/motorcycles/:id',
+  MOTORCYCLES_ID,
   (req, res, next) => new MotorcycleController(req, res, next).updateById(),
+);
+
+routes.delete(
+  MOTORCYCLES_ID,
+  (req, res, next) => new MotorcycleController(req, res, next).deleteById(),
 );
 
 export default routes;

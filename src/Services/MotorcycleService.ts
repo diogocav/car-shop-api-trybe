@@ -4,6 +4,8 @@ import MotorcycleODM from '../Models/MotorcycleODM';
 import InvalidIdError from '../errors/InvalidIdError';
 import NotFoundError from '../errors/NotFoundError';
 
+const INVALID_MONGO_ID = 'Invalid mongo id';
+const MOTORCYCLE_NOT_FOUND = 'Motorcycle not found';
 export default class MotorcycleService {
   private motorcycleODM: MotorcycleODM;
 
@@ -34,12 +36,12 @@ export default class MotorcycleService {
   public async getById(id: string): Promise<Motorcycle | null> {
     const regexId = /^[0-9a-fA-F]{24}$/;
     if (!regexId.test(id)) {
-      throw new InvalidIdError('Invalid mongo id');
+      throw new InvalidIdError(INVALID_MONGO_ID);
     }
     const motorcycle = await this.motorcycleODM.findById(id);
     const motorcyclesFinal = this.createMotorcycleDomain(motorcycle);
     if (!motorcyclesFinal) {
-      throw new NotFoundError('Motorcycle not found');
+      throw new NotFoundError(MOTORCYCLE_NOT_FOUND);
     }
     return motorcyclesFinal;
   }
@@ -47,13 +49,25 @@ export default class MotorcycleService {
   public async updateById(id: string, motorcycle: IMotorcycle): Promise<Motorcycle | null> {
     const regexId = /^[0-9a-fA-F]{24}$/;
     if (!regexId.test(id)) {
-      throw new InvalidIdError('Invalid mongo id');
+      throw new InvalidIdError(INVALID_MONGO_ID);
     }
     const updatedMotorcycle = await this.motorcycleODM.updateById(id, motorcycle);
     const motorcyclesFinal = this.createMotorcycleDomain(updatedMotorcycle);
     if (!motorcyclesFinal) {
-      throw new NotFoundError('Motorcycle not found');
+      throw new NotFoundError(MOTORCYCLE_NOT_FOUND);
     }
     return motorcyclesFinal;
+  }
+
+  public async deleteById(id: string): Promise<void> {
+    const regexId = /^[0-9a-fA-F]{24}$/;
+    if (!regexId.test(id)) {
+      throw new InvalidIdError(INVALID_MONGO_ID);
+    }
+    const deletedMotorcycle = await this.motorcycleODM.deleteById(id);
+    const motorcyclesFinal = this.createMotorcycleDomain(deletedMotorcycle);
+    if (!motorcyclesFinal) {
+      throw new NotFoundError(MOTORCYCLE_NOT_FOUND);
+    }
   }
 }
